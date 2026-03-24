@@ -64,9 +64,11 @@ func (r UniPromotionDataGetRequest) Encode() string {
 	values.Set("metrics", string(util.JSONMarshal(r.Metrics)))
 	values.Set("start_time", r.StartTime)
 	values.Set("end_time", r.EndTime)
-	if len(r.Filters) > 0 {
-		values.Set("filters", string(util.JSONMarshal(r.Filters)))
+	// filters 为必传参数，无过滤条件时传空数组
+	if r.Filters == nil {
+		r.Filters = []UniPromotionDataFilter{}
 	}
+	values.Set("filters", string(util.JSONMarshal(r.Filters)))
 	if len(r.OrderBy) > 0 {
 		values.Set("order_by", string(util.JSONMarshal(r.OrderBy)))
 	}
