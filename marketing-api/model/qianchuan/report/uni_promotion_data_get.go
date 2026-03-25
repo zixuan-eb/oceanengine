@@ -25,9 +25,9 @@ type UniPromotionDataGetRequest struct {
 	StartTime string `json:"start_time"`
 	// EndTime 结束时间，格式：2022-08-01 23:59:59
 	EndTime string `json:"end_time"`
-	// Filters 过滤条件（可选）
+	// Filters 过滤条件（必传，无条件传空数组）
 	Filters []UniPromotionDataFilter `json:"filters,omitempty"`
-	// OrderBy 排序（可选）
+	// OrderBy 排序（必传，无排序传空数组）
 	OrderBy []UniPromotionDataOrderBy `json:"order_by,omitempty"`
 	// Page 页码，默认 1
 	Page int `json:"page,omitempty"`
@@ -69,9 +69,11 @@ func (r UniPromotionDataGetRequest) Encode() string {
 		r.Filters = []UniPromotionDataFilter{}
 	}
 	values.Set("filters", string(util.JSONMarshal(r.Filters)))
-	if len(r.OrderBy) > 0 {
-		values.Set("order_by", string(util.JSONMarshal(r.OrderBy)))
+	// order_by 为必传参数，无排序条件时传空数组
+	if r.OrderBy == nil {
+		r.OrderBy = []UniPromotionDataOrderBy{}
 	}
+	values.Set("order_by", string(util.JSONMarshal(r.OrderBy)))
 	if r.Page > 0 {
 		values.Set("page", strconv.Itoa(r.Page))
 	}
@@ -93,14 +95,30 @@ type UniPromotionDataGetResponse struct {
 type UniPromotionDataGetResult struct {
 	// Rows 数据行
 	Rows []UniPromotionDataRow `json:"rows,omitempty"`
-	// Pagination 分页信息
-	Pagination *model.PageInfo `json:"pagination,omitempty"`
+	// Pagination 分页信息（接口返回字段名为 page_info）
+	Pagination *model.PageInfo `json:"page_info,omitempty"`
+}
+
+// UniPromotionDimValue 维度值结构（API 返回的是对象，不是简单字符串）
+type UniPromotionDimValue struct {
+	// Value 原始值
+	Value string `json:"Value,omitempty"`
+	// ValueStr 展示值（日期等格式化后的字符串）
+	ValueStr string `json:"ValueStr,omitempty"`
+}
+
+// UniPromotionMetricValue 指标值结构（API 返回的是对象，不是简单数值）
+type UniPromotionMetricValue struct {
+	// Value 数值
+	Value json.Number `json:"Value,omitempty"`
+	// ValueStr 展示字符串
+	ValueStr string `json:"ValueStr,omitempty"`
 }
 
 // UniPromotionDataRow 数据行
 type UniPromotionDataRow struct {
-	// Dimensions 维度数据 key=维度字段, value=维度值
-	Dimensions map[string]string `json:"dimensions,omitempty"`
-	// Metrics 指标数据 key=指标字段, value=指标值
-	Metrics map[string]json.Number `json:"metrics,omitempty"`
+	// Dimensions 维度数据 key=维度字段, value=维度对象
+	Dimensions map[string]UniPromotionDimValue `json:"dimensions,omitempty"`
+	// Metrics 指标数据 key=指标字段, value=指标对象
+	Metrics map[string]UniPromotionMetricValue `json:"metrics,omitempty"`
 }

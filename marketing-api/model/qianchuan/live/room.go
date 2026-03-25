@@ -1,6 +1,9 @@
 package live
 
-import "github.com/bububa/oceanengine/marketing-api/enum"
+import (
+	"github.com/bububa/oceanengine/marketing-api/enum"
+	"github.com/bububa/oceanengine/marketing-api/model"
+)
 
 // Room 直播间信息
 type Room struct {
@@ -23,11 +26,11 @@ type Room struct {
 	// AnchorAvatar 主播头像
 	AnchorAvatar string `json:"anchor_avatar,omitempty"`
 	// RoomID 直播间id
-	RoomID uint64 `json:"room_id,omitempty"`
+	RoomID model.Uint64 `json:"room_id,omitempty"`
 	// AwemeID 抖音号id
-	AwemeID uint64 `json:"aweme_id,omitempty"`
+	AwemeID model.Uint64 `json:"aweme_id,omitempty"`
 	// RoomDelivery 在投计划数
 	RoomDelivery int64 `json:"room_delivery,omitempty"`
 	// AnchorID 主播ID
-	AnchorID uint64 `json:"anchor_id,omitempty"`
+	AnchorID model.Uint64 `json:"anchor_id,omitempty"`
 }

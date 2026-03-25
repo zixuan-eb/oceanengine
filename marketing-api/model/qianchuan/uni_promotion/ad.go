@@ -3,6 +3,7 @@ package unipromotion
 import (
 	"github.com/bububa/oceanengine/marketing-api/enum"
 	"github.com/bububa/oceanengine/marketing-api/enum/qianchuan"
+	"github.com/bububa/oceanengine/marketing-api/model"
 	"github.com/bububa/oceanengine/marketing-api/model/qianchuan/live"
 	"github.com/bububa/oceanengine/marketing-api/model/qianchuan/report"
 )
@@ -22,7 +23,7 @@ type Ad struct {
 // AdInfo 广告信息
 type AdInfo struct {
 	// ID 推广id
-	ID uint64 `json:"id,omitempty"`
+	ID model.Uint64 `json:"id,omitempty"`
 	// Name 投放名称
 	Name string `json:"name,omitempty"`
 	// StartTime 当前周期开始时间，用来返回周期内数据
@@ -80,7 +81,7 @@ type CompensateInfo struct {
 // ProductInfo 商品信息
 type ProductInfo struct {
 	// ProductID 商品ID
-	ProductID uint64 `json:"product_id,omitempty"`
+	ProductID model.Uint64 `json:"product_id,omitempty"`
 	// ProductName 商品名称
 	ProductName string `json:"product_name,omitempty"`
 	// ProductImage 商品预览图
@@ -92,7 +93,7 @@ type ProductInfo struct {
 	// STAR_SELL 达人自播
 	ChannelType qianchuan.ProductChannelType `json:"channel_type,omitempty"`
 	// ChannelID 渠道id，渠道品相关介绍见《【抖店】销售渠道品功能操作手册》
-	ChannelID uint64 `json:"channel_id,omitempty"`
+	ChannelID model.Uint64 `json:"channel_id,omitempty"`
 }
 
 // AdDetail 广告详情
@@ -124,7 +125,7 @@ type AdDetail struct {
 	// OptStatus 操作状态，详见【附录-枚举值】
 	OptStatus qianchuan.AdOptStatus `json:"opt_status,omitempty"`
 	// AdID 计划id
-	AdID uint64 `json:"ad_id,omitempty"`
+	AdID model.Uint64 `json:"ad_id,omitempty"`
 	// AwemeID 抖音号id
-	AwemeID uint64 `json:"aweme_id,omitempty"`
+	AwemeID model.Uint64 `json:"aweme_id,omitempty"`
 }
